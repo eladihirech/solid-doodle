@@ -46,7 +46,7 @@ export function KPICard(props) {
             cy="50"
             r={radius}
             fill="none"
-            stroke={props.color}
+            stroke={statusColor()}
             stroke-width="8"
             stroke-linecap="round"
             stroke-dasharray={`${dash()} ${gap()}`}
