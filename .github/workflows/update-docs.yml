@@ -1,0 +1,137 @@
+name: Update project docs after PR merge
+
+on:
+  pull_request:
+    types: [closed]
+
+permissions:
+  contents: write
+  pull-requests: read
+
+jobs:
+  update-docs:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.base.ref }}
+          fetch-depth: 0
+
+      - name: Collect project metadata
+        id: meta
+        run: |
+          # Gather structural info for doc generation
+          echo "## Source tree" > /tmp/project-context.md
+          find src -type f | sort >> /tmp/project-context.md
+
+          echo "" >> /tmp/project-context.md
+          echo "## package.json scripts & deps" >> /tmp/project-context.md
+          node -e "
+            const p = require('./package.json');
+            console.log('Scripts:', JSON.stringify(p.scripts, null, 2));
+            console.log('Dependencies:', JSON.stringify(p.dependencies, null, 2));
+            console.log('DevDependencies:', JSON.stringify(p.devDependencies, null, 2));
+          " >> /tmp/project-context.md
+
+          echo "" >> /tmp/project-context.md
+          echo "## Component exports" >> /tmp/project-context.md
+          grep -rn "export " src/ --include="*.jsx" --include="*.js" \
+            | grep -v node_modules >> /tmp/project-context.md || true
+
+          echo "" >> /tmp/project-context.md
+          echo "## Merged PR" >> /tmp/project-context.md
+          echo "Title: ${{ github.event.pull_request.title }}" >> /tmp/project-context.md
+          echo "Author: ${{ github.event.pull_request.user.login }}" >> /tmp/project-context.md
+          echo "Number: #${{ github.event.pull_request.number }}" >> /tmp/project-context.md
+          cat <<'PRBODY' >> /tmp/project-context.md
+          ${{ github.event.pull_request.body }}
+          PRBODY
+
+      - name: Update CHANGELOG
+        run: |
+          DATE=$(date -u +%Y-%m-%d)
+          PR_NUM="#${{ github.event.pull_request.number }}"
+          PR_TITLE="${{ github.event.pull_request.title }}"
+          PR_AUTHOR="${{ github.event.pull_request.user.login }}"
+          PR_URL="${{ github.event.pull_request.html_url }}"
+
+          ENTRY="- ${PR_TITLE} ([${PR_NUM}](${PR_URL})) — @${PR_AUTHOR}"
+
+          if [ ! -f CHANGELOG.md ]; then
+            echo "# Changelog" > CHANGELOG.md
+            echo "" >> CHANGELOG.md
+          fi
+
+          # Add entry under today's date heading
+          if grep -q "## ${DATE}" CHANGELOG.md; then
+            sed -i "/## ${DATE}/a\\
+          ${ENTRY}" CHANGELOG.md
+          else
+            sed -i "/# Changelog/a\\
+          \\n## ${DATE}\\n${ENTRY}" CHANGELOG.md
+          fi
+
+      - name: Regenerate project structure in README
+        run: |
+          # Build a fresh tree of src/
+          TREE=$(find src -type f | sort | sed 's|[^/]*/|  |g; s|  |│   |g; s|│   \([^│]\)|├── \1|')
+
+          # Only update the Project Structure section if it exists
+          if grep -q "## Project Structure" README.md; then
+            python3 - <<'PYEOF'
+          import re, subprocess, pathlib
+
+          readme = pathlib.Path("README.md").read_text()
+
+          # Generate a clean tree
+          result = subprocess.run(
+              ["find", "src", "-type", "f"],
+              capture_output=True, text=True
+          )
+          files = sorted(result.stdout.strip().split("\n"))
+
+          # Build tree display
+          tree_lines = ["```"]
+          tree_lines.append("src/")
+          dirs_seen = set()
+          for f in files:
+              parts = f.split("/")[1:]  # skip "src"
+              indent = ""
+              for i, part in enumerate(parts[:-1]):
+                  dir_path = "/".join(parts[:i+1])
+                  prefix = "├── " if i == 0 else "│   " * i + "├── "
+                  if dir_path not in dirs_seen:
+                      tree_lines.append(f"{'│   ' * i}├── {part}/")
+                      dirs_seen.add(dir_path)
+              depth = len(parts) - 1
+              tree_lines.append(f"{'│   ' * depth}├── {parts[-1]}")
+          tree_lines.append("```")
+          new_tree = "\n".join(tree_lines)
+
+          # Replace the structure block
+          pattern = r"(## Project Structure\s*\n)```[\s\S]*?```"
+          replacement = rf"\1{new_tree}"
+          updated = re.sub(pattern, replacement, readme)
+
+          pathlib.Path("README.md").write_text(updated)
+          print("✅ README project structure updated")
+          PYEOF
+          fi
+
+      - name: Commit and push doc updates
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add CHANGELOG.md README.md
+          if git diff --cached --quiet; then
+            echo "No documentation changes to commit."
+          else
+            git commit -m "docs: update project docs after PR #${{ github.event.pull_request.number }}
+
+          Auto-generated by update-docs workflow.
+
+          Co-authored-by: github-actions[bot] <github-actions[bot]@users.noreply.github.com>"
+            git push
+          fi
