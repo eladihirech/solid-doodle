@@ -1,0 +1,32 @@
+/* ============================================================
+   OEE Manufacturing Dashboard — global base styles
+   ============================================================ */
+:root {
+  --bg:          #f1f5f9;
+  --surface:     #ffffff;
+  --surface-2:   #f8fafc;
+  --border:      #e2e8f0;
+  --text:        #334155;
+  --text-muted:  #64748b;
+  --text-heading:#0f172a;
+  --accent:      #6366f1;
+  --arc-track:   #e2e8f0;
+
+  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
+  font: 14px/150% var(--sans);
+  color: var(--text);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+  color-scheme: light;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body { margin: 0; }
+
+h1, h2, h3 {
+  font-family: var(--sans);
+  color: var(--text-heading);
+  font-weight: 600;
+}
+
