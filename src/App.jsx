@@ -57,11 +57,10 @@ function App() {
       </div>
 
       {/* ── Navigation tabs ────────────────────────────────────── */}
-      <nav class="tab-nav" role="tablist">
+      <nav class="tab-nav">
         {tabs.map((t) => (
           <button
-            role="tab"
-            aria-selected={activeTab() === t.id}
+            type="button"
             class={`tab-btn${activeTab() === t.id ? ' active' : ''}`}
             onClick={() => setActiveTab(t.id)}
           >
