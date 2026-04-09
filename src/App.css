@@ -13,8 +13,8 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: var(--surface);
-  border-bottom: 1px solid var(--border);
+  background: #0f172a;
+  border-bottom: 1px solid #1e293b;
   padding: 14px 24px;
   gap: 12px;
 }
@@ -34,11 +34,12 @@
   font-size: 20px;
   font-weight: 700;
   line-height: 1.2;
+  color: #f1f5f9;
 }
 
 .dash-subtitle {
   font-size: 13px;
-  color: var(--text-muted);
+  color: #94a3b8;
   margin-top: 2px;
 }
 
@@ -47,7 +48,7 @@
   align-items: center;
   gap: 8px;
   font-size: 13px;
-  color: var(--text-muted);
+  color: #94a3b8;
 }
 
 .live-dot {
@@ -57,21 +58,24 @@
   border-radius: 50%;
   background: #22c55e;
   animation: pulse 1.8s infinite;
+  box-shadow: 0 0 6px #22c55e;
 }
 
 .live-label {
   color: #22c55e;
   font-weight: 600;
   font-size: 12px;
+  letter-spacing: 0.5px;
 }
 
 .dash-time {
-  background: var(--surface-2);
-  border: 1px solid var(--border);
+  background: #1e293b;
+  border: 1px solid #334155;
   border-radius: 6px;
   padding: 3px 10px;
   font-weight: 600;
-  color: var(--text-heading);
+  color: #e2e8f0;
+  font-variant-numeric: tabular-nums;
 }
 
 @keyframes pulse {
