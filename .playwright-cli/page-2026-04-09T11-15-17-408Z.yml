@@ -1,0 +1,85 @@
+- generic [ref=e3]:
+  - banner [ref=e4]:
+    - generic [ref=e5]:
+      - generic [ref=e6]: 🏭
+      - generic [ref=e7]:
+        - heading "OEE Manufacturing Dashboard" [level=1] [ref=e8]
+        - paragraph [ref=e9]: Line 3 · Shift C · 2026-04-09
+    - generic [ref=e10]:
+      - generic [ref=e12]: Live
+      - generic [ref=e13]: 05:47 AM
+  - generic [ref=e14]:
+    - generic [ref=e15]:
+      - generic [ref=e16]: Planned Time
+      - generic [ref=e17]: 480 min
+    - generic [ref=e18]:
+      - generic [ref=e19]: Actual Run Time
+      - generic [ref=e20]: 446 min
+    - generic [ref=e21]:
+      - generic [ref=e22]: Total Count
+      - generic [ref=e23]: "381"
+    - generic [ref=e24]:
+      - generic [ref=e25]: Good Count
+      - generic [ref=e26]: "357"
+    - generic [ref=e27]:
+      - generic [ref=e28]: Ideal Cycle Time
+      - generic [ref=e29]: 1.1 min/unit
+    - generic [ref=e30]:
+      - generic [ref=e31]: Planned Cycle Time
+      - generic [ref=e32]: 1.2 min/unit
+  - navigation [ref=e33]:
+    - button "📊 Overview" [ref=e34] [cursor=pointer]
+    - button "📈 OEE Trend" [ref=e35] [cursor=pointer]
+    - button "🔧 Downtime" [ref=e36] [cursor=pointer]
+    - button "⚙️ Production" [ref=e37] [cursor=pointer]
+    - button "📋 Shifts" [ref=e38] [cursor=pointer]
+  - main [ref=e39]:
+    - generic [ref=e40]:
+      - generic [ref=e41]:
+        - generic [ref=e42]:
+          - generic [ref=e43]:
+            - generic [ref=e44]: 🎯
+            - generic [ref=e45]: Overall OEE
+          - generic [ref=e46]:
+            - img [ref=e47]
+            - generic [ref=e50]: 79.8%
+          - generic [ref=e51]:
+            - generic [ref=e52]: ● Warning
+            - generic [ref=e53]: "Target: 85%"
+          - paragraph [ref=e54]: Availability × Performance × Quality
+        - generic [ref=e55]:
+          - generic [ref=e56]:
+            - generic [ref=e57]: ⏱️
+            - generic [ref=e58]: Availability
+          - generic [ref=e59]:
+            - img [ref=e60]
+            - generic [ref=e63]: 93.0%
+          - generic [ref=e64]:
+            - generic [ref=e65]: ● Good
+            - generic [ref=e66]: "Target: 90%"
+          - paragraph [ref=e67]: Actual run time / Planned production time
+        - generic [ref=e68]:
+          - generic [ref=e69]:
+            - generic [ref=e70]: ⚡
+            - generic [ref=e71]: Performance
+          - generic [ref=e72]:
+            - img [ref=e73]
+            - generic [ref=e76]: 91.5%
+          - generic [ref=e77]:
+            - generic [ref=e78]: ● Good
+            - generic [ref=e79]: "Target: 90%"
+          - paragraph [ref=e80]: Ideal cycle time × Total count / Run time
+        - generic [ref=e81]:
+          - generic [ref=e82]:
+            - generic [ref=e83]: ✅
+            - generic [ref=e84]: Quality
+          - generic [ref=e85]:
+            - img [ref=e86]
+            - generic [ref=e89]: 93.7%
+          - generic [ref=e90]:
+            - generic [ref=e91]: ● Good
+            - generic [ref=e92]: "Target: 95%"
+          - paragraph [ref=e93]: Good count / Total count
+      - generic [ref=e94]:
+        - heading "Hourly Production vs Target" [level=3] [ref=e96]
+        - heading "Cycle Time (current shift)" [level=3] [ref=e100]
