@@ -44,14 +44,20 @@ npm run preview  # Preview the production build locally
 
 ```
 src/
-├── App.jsx                  # Main dashboard with tab navigation
-├── index.jsx                # App entry point
+├── App.css
+├── App.jsx
+├── assets/
+│   ├── hero.png
+│   ├── solid.svg
+│   ├── vite.svg
 ├── components/
-│   ├── Charts.jsx           # OEETrendChart, DowntimeChart, HourlyProductionChart, CycleTimeChart
-│   ├── KPICard.jsx          # KPI card with circular progress arc
-│   └── ShiftTable.jsx       # Shift summary table
-└── data/
-    └── mockData.js          # Mock manufacturing data (OEE, downtime, production, shifts)
+│   ├── Charts.jsx
+│   ├── KPICard.jsx
+│   ├── ShiftTable.jsx
+├── data/
+│   ├── mockData.js
+├── index.css
+├── index.jsx
 ```
 
 ## OEE Status Thresholds
